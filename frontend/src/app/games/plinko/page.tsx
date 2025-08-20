@@ -14,6 +14,23 @@ export default function PlinkoPage() {
   const [rows, setRows] = useState(16);
   const [isPlaying, setIsPlaying] = useState(false);
   const [lastResult, setLastResult] = useState<any>(null);
+  const [mounted, setMounted] = useState(false);
+
+  // Fix hydration issues
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-400">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   const riskLevels = [
     { value: 'low', label: 'Low Risk', color: 'from-green-500 to-emerald-500' },
@@ -67,13 +84,11 @@ export default function PlinkoPage() {
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-4">
             <Link href="/games">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="p-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"
+              <button
+                className="p-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors hover:scale-105 transform"
               >
                 <ArrowLeft className="w-5 h-5" />
-              </motion.button>
+              </button>
             </Link>
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">

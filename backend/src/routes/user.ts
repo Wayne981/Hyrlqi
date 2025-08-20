@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import Joi from 'joi';
 import { prisma } from '../server';
 import { authenticate, AuthenticatedRequest } from '../middleware/auth';
@@ -15,7 +15,7 @@ const updateProfileSchema = Joi.object({
 /**
  * Get user profile
  */
-router.get('/profile', authenticate, asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+router.get('/profile', authenticate, asyncHandler(async (req: AuthenticatedRequest, res: express.Response) => {
   const userId = req.user!.id;
 
   const user = await prisma.user.findUnique({
@@ -50,7 +50,7 @@ router.get('/profile', authenticate, asyncHandler(async (req: AuthenticatedReque
 /**
  * Update user profile
  */
-router.put('/profile', authenticate, asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+router.put('/profile', authenticate, asyncHandler(async (req: AuthenticatedRequest, res: express.Response) => {
   // Validate input
   const { error, value } = updateProfileSchema.validate(req.body);
   if (error) {
@@ -122,7 +122,7 @@ router.put('/profile', authenticate, asyncHandler(async (req: AuthenticatedReque
 /**
  * Get user balance
  */
-router.get('/balance', authenticate, asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+router.get('/balance', authenticate, asyncHandler(async (req: AuthenticatedRequest, res: express.Response) => {
   const userId = req.user!.id;
 
   const user = await prisma.user.findUnique({
@@ -145,7 +145,7 @@ router.get('/balance', authenticate, asyncHandler(async (req: AuthenticatedReque
 /**
  * Get user transactions
  */
-router.get('/transactions', authenticate, asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+router.get('/transactions', authenticate, asyncHandler(async (req: AuthenticatedRequest, res: express.Response) => {
   const userId = req.user!.id;
   const page = parseInt(req.query.page as string) || 1;
   const limit = Math.min(parseInt(req.query.limit as string) || 20, 100);
@@ -197,7 +197,7 @@ router.get('/transactions', authenticate, asyncHandler(async (req: Authenticated
 /**
  * Get user statistics
  */
-router.get('/stats', authenticate, asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+router.get('/stats', authenticate, asyncHandler(async (req: AuthenticatedRequest, res: express.Response) => {
   const userId = req.user!.id;
 
   // Game statistics
@@ -297,7 +297,7 @@ router.get('/stats', authenticate, asyncHandler(async (req: AuthenticatedRequest
 /**
  * Get user's active sessions
  */
-router.get('/sessions', authenticate, asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+router.get('/sessions', authenticate, asyncHandler(async (req: AuthenticatedRequest, res: express.Response) => {
   const userId = req.user!.id;
 
   const sessions = await prisma.session.findMany({
@@ -332,7 +332,7 @@ router.get('/sessions', authenticate, asyncHandler(async (req: AuthenticatedRequ
 /**
  * Delete a specific session
  */
-router.delete('/sessions/:sessionId', authenticate, asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+router.delete('/sessions/:sessionId', authenticate, asyncHandler(async (req: AuthenticatedRequest, res: express.Response) => {
   const userId = req.user!.id;
   const sessionId = req.params.sessionId;
 
@@ -357,7 +357,7 @@ router.delete('/sessions/:sessionId', authenticate, asyncHandler(async (req: Aut
 /**
  * Deactivate user account
  */
-router.post('/deactivate', authenticate, asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+router.post('/deactivate', authenticate, asyncHandler(async (req: AuthenticatedRequest, res: express.Response) => {
   const userId = req.user!.id;
 
   // Deactivate user account

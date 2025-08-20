@@ -16,7 +16,24 @@ export default function CrashPage() {
   const [currentMultiplier, setCurrentMultiplier] = useState(1.0);
   const [gameHistory, setGameHistory] = useState<number[]>([]);
   const [hasActiveBet, setHasActiveBet] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout>();
+
+  // Fix hydration issues
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-400">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   const startGame = () => {
     if (!user) {
@@ -62,16 +79,8 @@ export default function CrashPage() {
     const finalMultiplier = multiplier || currentMultiplier;
     const winAmount = betAmount * finalMultiplier;
     
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
-    
-    setGameActive(false);
-    setIsPlaying(false);
+    // Only remove the bet, but keep the game running
     setHasActiveBet(false);
-    
-    // Add to history
-    setGameHistory(prev => [finalMultiplier, ...prev.slice(0, 9)]);
     
     toast.success(`Cashed out at ${finalMultiplier.toFixed(2)}x! Won $${winAmount.toFixed(2)}`);
   };
@@ -88,6 +97,14 @@ export default function CrashPage() {
     if (hasActiveBet) {
       setHasActiveBet(false);
       toast.error(`💥 Crashed at ${crashPoint.toFixed(2)}x! You lost $${betAmount}`);
+    } else {
+      toast(`💥 Game crashed at ${crashPoint.toFixed(2)}x`, {
+        icon: '✈️',
+        style: {
+          background: 'rgba(59, 130, 246, 0.95)',
+          color: '#ffffff',
+        },
+      });
     }
     
     // Add to history
@@ -114,13 +131,11 @@ export default function CrashPage() {
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-4">
             <Link href="/games">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="p-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"
+              <button
+                className="p-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors hover:scale-105 transform"
               >
                 <ArrowLeft className="w-5 h-5" />
-              </motion.button>
+              </button>
             </Link>
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
@@ -198,9 +213,13 @@ export default function CrashPage() {
                   >
                     Cash Out (${(betAmount * currentMultiplier).toFixed(2)})
                   </button>
+                ) : gameActive ? (
+                  <div className="w-full py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-xl text-center">
+                    🛩️ Watching Flight
+                  </div>
                 ) : (
                   <div className="w-full py-4 bg-gray-600 text-gray-400 font-bold rounded-xl text-center">
-                    Watching Game
+                    Waiting for Next Round
                   </div>
                 )}
               </div>
@@ -245,7 +264,7 @@ export default function CrashPage() {
                 
                 {gameActive ? (
                   <p className="text-lg text-gray-300">
-                    {hasActiveBet ? 'Your bet is active!' : 'Watching the multiplier...'}
+                    {hasActiveBet ? 'Your bet is active! Cash out anytime!' : 'You cashed out! Watching the flight...'}
                   </p>
                 ) : (
                   <p className="text-lg text-gray-400">

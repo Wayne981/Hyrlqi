@@ -182,14 +182,12 @@ export default function GamesPage() {
               {/* Play Button */}
               <div className="p-6 pt-0">
                 <Link href={`/games/${game.id}`}>
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className={`w-full py-3 bg-gradient-to-r ${game.color} hover:opacity-90 text-white font-semibold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 btn-hover`}
+                  <button
+                    className={`w-full py-3 bg-gradient-to-r ${game.color} hover:opacity-90 text-white font-semibold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 btn-hover hover:scale-102 transform`}
                   >
                     <Play className="w-4 h-4" />
                     Play {game.name}
-                  </motion.button>
+                  </button>
                 </Link>
               </div>
             </motion.div>

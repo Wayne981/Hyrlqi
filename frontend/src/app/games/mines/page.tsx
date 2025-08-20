@@ -17,6 +17,23 @@ export default function MinesPage() {
   const [revealedCells, setRevealedCells] = useState<Set<number>>(new Set());
   const [currentMultiplier, setCurrentMultiplier] = useState(1.0);
   const [gameActive, setGameActive] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // Fix hydration issues
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 text-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-400">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   const initializeGame = () => {
     const board = Array(gridSize).fill(null).map((_, index) => ({
@@ -99,13 +116,11 @@ export default function MinesPage() {
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-4">
             <Link href="/games">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="p-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"
+              <button
+                className="p-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors hover:scale-105 transform"
               >
                 <ArrowLeft className="w-5 h-5" />
-              </motion.button>
+              </button>
             </Link>
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
@@ -209,10 +224,8 @@ export default function MinesPage() {
             <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
               <div className="grid grid-cols-5 gap-2 max-w-md mx-auto">
                 {gameBoard.map((cell) => (
-                  <motion.button
+                  <button
                     key={cell.id}
-                    whileHover={gameActive && !revealedCells.has(cell.id) ? { scale: 1.05 } : {}}
-                    whileTap={gameActive && !revealedCells.has(cell.id) ? { scale: 0.95 } : {}}
                     onClick={() => handleCellClick(cell.id)}
                     disabled={!gameActive || revealedCells.has(cell.id)}
                     className={`aspect-square rounded-lg border-2 transition-all duration-300 flex items-center justify-center ${
@@ -220,7 +233,7 @@ export default function MinesPage() {
                         ? cell.isMine
                           ? 'bg-red-500 border-red-400'
                           : 'bg-green-500 border-green-400'
-                        : 'bg-gray-700 border-gray-600 hover:border-purple-500 hover:bg-gray-600'
+                        : 'bg-gray-700 border-gray-600 hover:border-purple-500 hover:bg-gray-600 hover:scale-105 transform'
                     }`}
                   >
                     {revealedCells.has(cell.id) && (
@@ -232,7 +245,7 @@ export default function MinesPage() {
                         )}
                       </>
                     )}
-                  </motion.button>
+                  </button>
                 ))}
               </div>
               

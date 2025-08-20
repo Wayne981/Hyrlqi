@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
+import AuthProvider from '@/components/AuthProvider';
 import './globals.css';
 
 const inter = Inter({ 
@@ -63,36 +64,38 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} dark`}>
       <body className={`${inter.className} bg-gray-950 text-white antialiased`}>
-        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
-          {children}
-        </div>
-        <Toaster 
-          position="top-right"
-          toastOptions={{
-            duration: 4000,
-            style: {
-              background: 'rgba(17, 24, 39, 0.95)',
-              color: '#ffffff',
-              border: '1px solid rgba(55, 65, 81, 0.5)',
-              borderRadius: '12px',
-              backdropFilter: 'blur(10px)',
-              fontSize: '14px',
-              fontWeight: '500',
-            },
-            success: {
-              iconTheme: {
-                primary: '#10b981',
-                secondary: '#ffffff',
+        <AuthProvider>
+          <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
+            {children}
+          </div>
+          <Toaster 
+            position="top-right"
+            toastOptions={{
+              duration: 4000,
+              style: {
+                background: 'rgba(17, 24, 39, 0.95)',
+                color: '#ffffff',
+                border: '1px solid rgba(55, 65, 81, 0.5)',
+                borderRadius: '12px',
+                backdropFilter: 'blur(10px)',
+                fontSize: '14px',
+                fontWeight: '500',
               },
-            },
-            error: {
-              iconTheme: {
-                primary: '#ef4444',
-                secondary: '#ffffff',
+              success: {
+                iconTheme: {
+                  primary: '#10b981',
+                  secondary: '#ffffff',
+                },
               },
-            },
-          }}
-        />
+              error: {
+                iconTheme: {
+                  primary: '#ef4444',
+                  secondary: '#ffffff',
+                },
+              },
+            }}
+          />
+        </AuthProvider>
       </body>
     </html>
   );

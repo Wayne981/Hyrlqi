@@ -122,36 +122,30 @@ export default function HomePage() {
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
                 {user ? (
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                  <button
                     onClick={() => router.push('/games')}
-                    className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg transition-all duration-300 flex items-center gap-2 btn-hover"
+                    className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg transition-all duration-300 flex items-center gap-2 btn-hover hover:scale-105 transform"
                   >
                     <Play className="w-5 h-5" />
                     Play Now
                     <ArrowRight className="w-5 h-5" />
-                  </motion.button>
+                  </button>
                 ) : (
                   <>
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
+                    <button
                       onClick={() => router.push('/auth/register')}
-                      className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg transition-all duration-300 flex items-center gap-2 btn-hover"
+                      className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg transition-all duration-300 flex items-center gap-2 btn-hover hover:scale-105 transform"
                     >
                       Start Playing
                       <ArrowRight className="w-5 h-5" />
-                    </motion.button>
+                    </button>
                     
-                    <motion.button
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
+                    <button
                       onClick={() => router.push('/auth/login')}
-                      className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white font-semibold rounded-xl transition-all duration-300"
+                      className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 transform"
                     >
                       Sign In
-                    </motion.button>
+                    </button>
                   </>
                 )}
               </div>
@@ -310,14 +304,12 @@ export default function HomePage() {
             </p>
             
             {!user && (
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <button
                 onClick={() => router.push('/auth/register')}
-                className="px-12 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold text-lg rounded-xl shadow-lg transition-all duration-300 btn-hover"
+                className="px-12 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold text-lg rounded-xl shadow-lg transition-all duration-300 btn-hover hover:scale-105 transform"
               >
                 Get Started Now
-              </motion.button>
+              </button>
             )}
           </motion.div>
         </div>
