@@ -213,18 +213,63 @@ export default function PlinkoPage() {
 
           {/* Game Board */}
           <div className="lg:col-span-2">
-            <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700 min-h-[600px] flex items-center justify-center">
-              <div className="text-center">
-                <Target className="w-16 h-16 text-blue-500 mx-auto mb-4" />
-                <h3 className="text-2xl font-bold mb-2">Plinko Game Board</h3>
-                <p className="text-gray-400 mb-6">
-                  Interactive game board will be rendered here
-                </p>
-                <div className="text-sm text-gray-500">
-                  <p>• Ball will drop from the top</p>
-                  <p>• Bounce through {rows} rows of pegs</p>
-                  <p>• Land in multiplier slots at bottom</p>
-                  <p>• Risk level: {riskLevel}</p>
+            <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700 min-h-[600px]">
+              <div className="relative w-full max-w-2xl mx-auto">
+                {/* Plinko Board */}
+                <div className="relative bg-gradient-to-b from-gray-900 to-gray-800 rounded-xl p-8 border border-gray-600">
+                  {/* Ball Drop Zone */}
+                  <div className="text-center mb-6">
+                    <div className="w-4 h-4 bg-white rounded-full mx-auto mb-2 animate-bounce"></div>
+                    <p className="text-xs text-gray-400">Drop Zone</p>
+                  </div>
+                  
+                  {/* Pegs Grid */}
+                  <div className="space-y-6">
+                    {Array.from({ length: rows }, (_, rowIndex) => (
+                      <div key={rowIndex} className="flex justify-center items-center gap-4">
+                        {Array.from({ length: rowIndex + 3 }, (_, pegIndex) => (
+                          <div
+                            key={pegIndex}
+                            className="w-3 h-3 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full shadow-lg"
+                          />
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {/* Multiplier Slots */}
+                  <div className="mt-8 flex justify-center gap-1">
+                    {Array.from({ length: rows + 1 }, (_, slotIndex) => {
+                      const multipliers = riskLevel === 'low' 
+                        ? [0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 2.5, 2.0, 1.5, 1.0, 0.5]
+                        : riskLevel === 'medium'
+                        ? [0.3, 0.7, 1.2, 2.0, 3.5, 5.0, 3.5, 2.0, 1.2, 0.7, 0.3]
+                        : [0.2, 0.5, 1.0, 2.5, 5.0, 10.0, 5.0, 2.5, 1.0, 0.5, 0.2];
+                      
+                      const multiplier = multipliers[Math.min(slotIndex, multipliers.length - 1)];
+                      const isHighMultiplier = multiplier >= 5;
+                      
+                      return (
+                        <div
+                          key={slotIndex}
+                          className={`flex-1 min-w-0 py-2 px-1 text-center text-xs font-bold rounded-t-lg border-t-2 ${
+                            isHighMultiplier
+                              ? 'bg-gradient-to-t from-red-600 to-red-500 border-red-400 text-white'
+                              : multiplier >= 2
+                              ? 'bg-gradient-to-t from-yellow-600 to-yellow-500 border-yellow-400 text-white'
+                              : 'bg-gradient-to-t from-green-600 to-green-500 border-green-400 text-white'
+                          }`}
+                        >
+                          {multiplier}x
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+                
+                {/* Game Stats */}
+                <div className="mt-4 text-center text-sm text-gray-400">
+                  <p>Risk Level: <span className="capitalize text-white">{riskLevel}</span> | Rows: <span className="text-white">{rows}</span></p>
                 </div>
               </div>
             </div>

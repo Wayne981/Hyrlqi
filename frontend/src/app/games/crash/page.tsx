@@ -257,21 +257,56 @@ export default function CrashPage() {
               {/* Game Visualization */}
               <div className="flex-1 flex items-center justify-center">
                 <div className="relative w-full max-w-2xl h-64 bg-gradient-to-r from-gray-900 to-gray-800 rounded-xl border border-gray-600 overflow-hidden">
-                  {/* Multiplier Line */}
+                  {/* Grid Lines */}
+                  <svg className="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 100 100" preserveAspectRatio="none">
+                    {/* Horizontal lines */}
+                    {Array.from({ length: 5 }, (_, i) => (
+                      <line key={`h-${i}`} x1="0" y1={i * 25} x2="100" y2={i * 25} stroke="currentColor" strokeWidth="0.2"/>
+                    ))}
+                    {/* Vertical lines */}
+                    {Array.from({ length: 6 }, (_, i) => (
+                      <line key={`v-${i}`} x1={i * 20} y1="0" x2={i * 20} y2="100" stroke="currentColor" strokeWidth="0.2"/>
+                    ))}
+                  </svg>
+
+                  {/* Multiplier Curve */}
                   <motion.div
-                    className="absolute bottom-0 left-0 bg-gradient-to-r from-green-500 to-emerald-500 h-2"
+                    className="absolute bottom-0 left-0 bg-gradient-to-r from-green-500 to-emerald-500 h-1 shadow-lg"
                     style={{ 
                       width: gameActive 
-                        ? `${Math.min((currentMultiplier - 1) * 20, 100)}%` 
+                        ? `${Math.min((currentMultiplier - 1) * 15, 100)}%` 
                         : '0%' 
                     }}
                     animate={{ 
                       width: gameActive 
-                        ? `${Math.min((currentMultiplier - 1) * 20, 100)}%` 
+                        ? `${Math.min((currentMultiplier - 1) * 15, 100)}%` 
                         : '0%' 
                     }}
                     transition={{ duration: 0.1 }}
                   />
+                  
+                  {/* Animated Plane */}
+                  {gameActive && (
+                    <motion.div
+                      className="absolute text-2xl"
+                      style={{
+                        left: `${Math.min((currentMultiplier - 1) * 15, 95)}%`,
+                        bottom: `${Math.min((currentMultiplier - 1) * 8, 80)}%`,
+                      }}
+                      animate={{
+                        left: `${Math.min((currentMultiplier - 1) * 15, 95)}%`,
+                        bottom: `${Math.min((currentMultiplier - 1) * 8, 80)}%`,
+                        rotate: gameActive ? [0, 5, 0] : 0,
+                      }}
+                      transition={{ 
+                        left: { duration: 0.1 },
+                        bottom: { duration: 0.1 },
+                        rotate: { repeat: Infinity, duration: 2 }
+                      }}
+                    >
+                      ✈️
+                    </motion.div>
+                  )}
                   
                   {/* Crash Effect */}
                   {!gameActive && gameHistory.length > 0 && (
@@ -282,12 +317,51 @@ export default function CrashPage() {
                       className="absolute inset-0 flex items-center justify-center"
                     >
                       <div className="text-center">
-                        <div className="text-4xl mb-2">💥</div>
+                        <motion.div 
+                          className="text-4xl mb-2"
+                          animate={{ rotate: [0, 360] }}
+                          transition={{ duration: 0.5 }}
+                        >
+                          💥
+                        </motion.div>
                         <div className="text-xl font-bold text-red-400">
                           CRASHED AT {gameHistory[0]?.toFixed(2)}x
                         </div>
+                        <motion.div
+                          className="text-6xl mt-2"
+                          initial={{ y: -50, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          transition={{ delay: 0.2 }}
+                        >
+                          🔥
+                        </motion.div>
                       </div>
                     </motion.div>
+                  )}
+                  
+                  {/* Waiting State */}
+                  {!gameActive && gameHistory.length === 0 && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="text-center">
+                        <motion.div 
+                          className="text-4xl mb-4"
+                          animate={{ y: [0, -10, 0] }}
+                          transition={{ repeat: Infinity, duration: 2 }}
+                        >
+                          ✈️
+                        </motion.div>
+                        <p className="text-gray-400">Ready for takeoff!</p>
+                        <p className="text-sm text-gray-500">Place your bet to start</p>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Multiplier Trail */}
+                  {gameActive && (
+                    <div className="absolute top-4 left-4 text-xs text-gray-400 space-y-1">
+                      <div>Height: {((currentMultiplier - 1) * 1000).toFixed(0)}ft</div>
+                      <div>Speed: {(currentMultiplier * 50).toFixed(0)} mph</div>
+                    </div>
                   )}
                 </div>
               </div>
