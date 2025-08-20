@@ -1,0 +1,119 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  username    String   @unique
+  password    String
+  balance     Decimal  @default(1000.00) @db.Decimal(15, 2)
+  isActive    Boolean  @default(true)
+  isVerified  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  gameHistory GameHistory[]
+  transactions Transaction[]
+  sessions     Session[]
+
+  @@map("users")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model GameHistory {
+  id          String      @id @default(cuid())
+  userId      String
+  gameType    GameType
+  betAmount   Decimal     @db.Decimal(15, 2)
+  payout      Decimal     @default(0.00) @db.Decimal(15, 2)
+  multiplier  Float       @default(0.0)
+  isWin       Boolean     @default(false)
+  gameData    Json        // Game-specific data (ball path, mine positions, crash point, etc.)
+  seed        String      // For provably fair gaming
+  nonce       Int         // Sequential number for each bet
+  createdAt   DateTime    @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("game_history")
+}
+
+model Transaction {
+  id            String          @id @default(cuid())
+  userId        String
+  type          TransactionType
+  amount        Decimal         @db.Decimal(15, 2)
+  balanceBefore Decimal         @db.Decimal(15, 2)
+  balanceAfter  Decimal         @db.Decimal(15, 2)
+  description   String?
+  gameHistoryId String?
+  createdAt     DateTime        @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("transactions")
+}
+
+model GameSettings {
+  id        String   @id @default(cuid())
+  gameType  GameType @unique
+  settings  Json     // Game-specific settings (house edge, max bet, etc.)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("game_settings")
+}
+
+model SystemStats {
+  id              String   @id @default(cuid())
+  totalUsers      Int      @default(0)
+  totalGamesPlayed Int     @default(0)
+  totalVolume     Decimal  @default(0.00) @db.Decimal(20, 2)
+  totalPayout     Decimal  @default(0.00) @db.Decimal(20, 2)
+  houseProfit     Decimal  @default(0.00) @db.Decimal(20, 2)
+  date            DateTime @default(now()) @db.Date
+  createdAt       DateTime @default(now())
+
+  @@unique([date])
+  @@map("system_stats")
+}
+
+enum GameType {
+  PLINKO
+  MINES
+  CRASH
+}
+
+enum TransactionType {
+  DEPOSIT
+  WITHDRAWAL
+  BET
+  WIN
+  BONUS
+  REFUND
+}
