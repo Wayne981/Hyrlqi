@@ -1,14 +1,10 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
 import AuthProvider from '@/components/AuthProvider';
 import './globals.css';
 
-const inter = Inter({ 
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-inter',
-});
+// We'll use system fonts for better performance and classic typography
+// Helvetica for headings, Garamond for body text
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -18,8 +14,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'Hyrlqi - Premium Gambling Platform',
-  description: 'Experience the thrill of Plinko, Mines, and Crash games on the most elegant gambling platform. Provably fair, instant payouts, and industry-leading security.',
+  title: 'Hyrlqi - Ofform Gambling Platform',
+  description: 'Ofform the thrill of Plinko, Mines, and Crash games on the most elegant gambling platform. Provably fair, instant payouts, and industry-leading security.',
   keywords: 'gambling, casino, plinko, mines, crash, provably fair, crypto gambling',
   authors: [{ name: 'Hyrlqi Team' }],
   creator: 'Hyrlqi',
@@ -29,22 +25,22 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: 'https://hyrlqi.com',
-    title: 'Hyrlqi - Premium Gambling Platform',
-    description: 'Experience the thrill of Plinko, Mines, and Crash games on the most elegant gambling platform.',
+    title: 'Hyrlqi - Ofform Gambling Platform',
+    description: 'Ofform the thrill of Plinko, Mines, and Crash games on the most elegant gambling platform.',
     siteName: 'Hyrlqi',
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Hyrlqi - Premium Gambling Platform',
+        alt: 'Hyrlqi - Ofform Gambling Platform',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Hyrlqi - Premium Gambling Platform',
-    description: 'Experience the thrill of Plinko, Mines, and Crash games on the most elegant gambling platform.',
+    title: 'Hyrlqi - Ofform Gambling Platform',
+    description: 'Ofform the thrill of Plinko, Mines, and Crash games on the most elegant gambling platform.',
     images: ['/og-image.jpg'],
     creator: '@hyrlqi',
   },
@@ -62,10 +58,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable} dark`}>
-      <body className={`${inter.className} bg-gray-950 text-white antialiased`}>
+    <html lang="en" className="dark">
+      <body className="antialiased" style={{backgroundColor: 'var(--bg)', color: 'var(--text)', fontFamily: 'var(--font-helvetica)'}}>
         <AuthProvider>
-          <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
+          <div className="min-h-screen" style={{background: 'linear-gradient(135deg, var(--bg) 0%, var(--surface) 50%, var(--surface-2) 100%)'}}>
             {children}
           </div>
           <Toaster 

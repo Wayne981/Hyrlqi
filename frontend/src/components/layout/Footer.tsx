@@ -51,7 +51,7 @@ export default function Footer() {
               <span className="text-2xl font-bold gradient-text">Hyrlqi</span>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed mb-6 max-w-sm">
-              The most elegant gambling platform featuring Plinko, Mines, and Crash games. 
+              The most elegant ofform gambling platform featuring Plinko, Mines, and Crash games. 
               Provably fair, instant payouts, and industry-leading security.
             </p>
             <div className="flex space-x-4">

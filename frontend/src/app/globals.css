@@ -2,10 +2,28 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+@import url('https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@100;200;300;400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 :root {
-  --font-inter: 'Inter', system-ui, sans-serif;
+  /* Jade Nebula Color Palette */
+  --bg: #061717;
+  --surface: #0A2123;
+  --surface-2: #0E2C2F;
+  --border: #143A3E;
+  --text: #E9FAF7;
+  --muted: #9BCBC3;
+  --primary: #39E3B0;
+  --primary-foreground: #062018;
+  --accent: #71F2E8;
+  --success: #27D488;
+  --warning: #F0B35A;
+  --danger: #FF5A7A;
+  
+  /* Font Variables */
+  --font-helvetica: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-times: 'Times New Roman', Times, serif;
+  --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 * {
@@ -18,17 +36,16 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-  font-family: var(--font-inter);
+  font-family: var(--font-helvetica);
+  background: var(--bg);
+  color: var(--text);
+  scroll-behavior: smooth;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: var(--bg);
+  color: var(--text);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 a {
@@ -64,12 +81,12 @@ a {
 /* Custom selection */
 ::selection {
   background: rgba(59, 130, 246, 0.3);
-  color: #ffffff;
+  color: var(--text);
 }
 
 ::-moz-selection {
   background: rgba(59, 130, 246, 0.3);
-  color: #ffffff;
+  color: var(--text);
 }
 
 /* Smooth transitions */
@@ -88,31 +105,29 @@ a {
 }
 
 .glass-dark {
-  background: rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(10, 33, 35, 0.6);
+  backdrop-filter: blur(15px);
+  border: 1px solid var(--border);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Gradient text */
+/* Jade Nebula Gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-}
-
-.gradient-text-primary {
-  background: linear-gradient(135deg, #0ea5e9, #3b82f6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  background-size: 200% 200%;
+  animation: gradientShift 4s ease-in-out infinite;
 }
 
 .gradient-text-secondary {
-  background: linear-gradient(135deg, #d946ef, #8b5cf6);
+  background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  background-size: 200% 200%;
+  animation: gradientShift 4s ease-in-out infinite reverse;
 }
 
 /* Button animations */
@@ -148,8 +163,8 @@ a {
 
 /* Loading spinner */
 .spinner {
-  border: 2px solid #f3f3f3;
-  border-top: 2px solid #3b82f6;
+  border: 2px solid var(--border);
+  border-top: 2px solid var(--primary);
   border-radius: 50%;
   width: 20px;
   height: 20px;
@@ -228,13 +243,13 @@ a {
 .mines-cell.revealed {
   background: linear-gradient(135deg, #065f46, #047857);
   border-color: #10b981;
-  color: #ffffff;
+  color: var(--text);
 }
 
 .mines-cell.mine {
   background: linear-gradient(135deg, #7c2d12, #dc2626);
   border-color: #ef4444;
-  color: #ffffff;
+  color: var(--text);
 }
 
 /* Crash game styles */
@@ -268,19 +283,288 @@ a {
 .toast-success {
   background: linear-gradient(135deg, #065f46, #047857);
   border: 1px solid #10b981;
-  color: #ffffff;
+  color: var(--text);
 }
 
 .toast-error {
   background: linear-gradient(135deg, #7c2d12, #dc2626);
   border: 1px solid #ef4444;
-  color: #ffffff;
+  color: var(--text);
 }
 
 .toast-info {
-  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-  border: 1px solid #60a5fa;
-  color: #ffffff;
+  background: linear-gradient(135deg, var(--surface), var(--primary));
+  border: 1px solid var(--accent);
+  color: var(--text);
+}
+
+/* Typography Classes */
+.font-heading {
+  font-family: var(--font-helvetica);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+.font-body {
+  font-family: var(--font-times);
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.font-inter {
+  font-family: var(--font-inter) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+}
+
+/* Apply fonts to common elements */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-helvetica);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+/* Override for Inter font specifically */
+h1.font-inter {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+}
+
+body, p, span, div, a {
+  font-family: var(--font-times);
+  line-height: 1.6;
+}
+
+/* Button text should be more readable with Helvetica */
+button, .btn {
+  font-family: var(--font-helvetica);
+  font-weight: 500;
+  letter-spacing: 0.025em;
+}
+
+/* Jade Nebula Theme Classes */
+.jade-bg { background-color: var(--bg); }
+.jade-surface { background-color: var(--surface); }
+.jade-surface-2 { background-color: var(--surface-2); }
+.jade-border { border-color: var(--border); }
+.jade-text { color: var(--text); }
+.jade-muted { color: var(--muted); }
+.jade-primary { color: var(--primary); }
+.jade-primary-bg { background-color: var(--primary); }
+.jade-primary-fg { color: var(--primary-foreground); }
+.jade-accent { color: var(--accent); }
+.jade-accent-bg { background-color: var(--accent); }
+.jade-success { color: var(--success); }
+.jade-success-bg { background-color: var(--success); }
+.jade-warning { color: var(--warning); }
+.jade-warning-bg { background-color: var(--warning); }
+.jade-danger { color: var(--danger); }
+.jade-danger-bg { background-color: var(--danger); }
+
+/* Glass Effects */
+.glass-surface {
+  background: rgba(10, 33, 35, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-surface:hover {
+  background: rgba(14, 44, 47, 0.9);
+  border-color: var(--primary);
+  box-shadow: 0 8px 32px rgba(57, 227, 176, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Animated Gradients */
+.gradient-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  background-size: 200% 200%;
+  animation: gradientShift 4s ease-in-out infinite;
+}
+
+.gradient-accent {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+  background-size: 200% 200%;
+  animation: gradientShift 4s ease-in-out infinite reverse;
+}
+
+.gradient-text-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShift 4s ease-in-out infinite;
+}
+
+.gradient-text-accent {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShift 4s ease-in-out infinite reverse;
+}
+
+/* Smooth Animations */
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes glow {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(57, 227, 176, 0.3);
+  }
+  50% { 
+    box-shadow: 0 0 30px rgba(113, 242, 232, 0.5);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-primary {
+  0%, 100% { 
+    box-shadow: 0 0 0 0 rgba(57, 227, 176, 0.7);
+  }
+  70% { 
+    box-shadow: 0 0 0 10px rgba(57, 227, 176, 0);
+  }
+}
+
+/* Interactive Elements */
+.interactive-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.interactive-card:hover {
+  background: var(--surface-2);
+  border-color: var(--primary);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(57, 227, 176, 0.2);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  color: var(--primary-foreground);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-family: var(--font-helvetica);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(57, 227, 176, 0.3);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-family: var(--font-helvetica);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-secondary:hover {
+  background: var(--surface);
+  border-color: var(--primary);
+  color: var(--primary);
+  transform: translateY(-2px);
+}
+
+/* Hyreliq Logo Styles */
+.hyreliq-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-inter);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.hyreliq-logo:hover {
+  transform: scale(1.05);
+}
+
+.hyreliq-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--text);
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hyreliq-text {
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  text-transform: lowercase;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hyreliq-logo:hover .hyreliq-dot {
+  background-color: var(--primary);
+  box-shadow: 0 0 10px rgba(57, 227, 176, 0.5);
+}
+
+.hyreliq-logo:hover .hyreliq-text {
+  color: var(--primary);
+}
+
+/* Size variations for logo */
+.hyreliq-logo.size-small {
+  gap: 0.5rem;
+}
+
+.hyreliq-logo.size-small .hyreliq-dot {
+  width: 6px;
+  height: 6px;
+}
+
+.hyreliq-logo.size-small .hyreliq-text {
+  font-size: 1.1rem;
+}
+
+.hyreliq-logo.size-large {
+  gap: 1rem;
+}
+
+.hyreliq-logo.size-large .hyreliq-dot {
+  width: 12px;
+  height: 12px;
+}
+
+.hyreliq-logo.size-large .hyreliq-text {
+  font-size: 2rem;
 }
 
 /* Responsive design */

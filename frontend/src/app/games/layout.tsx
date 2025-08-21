@@ -21,10 +21,10 @@ export default function GamesLayout({
 
   if (!isInitialized) {
     return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{backgroundColor: 'var(--bg)'}}>
         <div className="text-center">
           <div className="spinner mx-auto mb-4" />
-          <p className="text-gray-400">Loading...</p>
+          <p style={{color: 'var(--muted)'}}>Loading...</p>
         </div>
       </div>
     );
@@ -35,7 +35,7 @@ export default function GamesLayout({
   }
 
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen" style={{backgroundColor: 'var(--bg)'}}>
       <Navbar />
       <div className="pt-16">
         {children}

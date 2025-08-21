@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 import { toast } from 'react-hot-toast';
+import HyreliqLogo from '../HyreliqLogo';
 
 const navigation = [
   { name: 'Games', href: '/games' },
@@ -58,15 +59,12 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-lg border-b border-gray-800">
+    <nav className="fixed top-0 left-0 right-0 z-50 glass-surface border-b" style={{borderColor: 'var(--border)'}}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
-              <Zap className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-xl font-bold gradient-text">Hyrlqi</span>
+          <Link href="/" className="flex items-center">
+            <HyreliqLogo size="medium" />
           </Link>
 
           {/* Desktop Navigation */}
@@ -98,9 +96,9 @@ export default function Navbar() {
                 <div className="relative">
                   <button
                     onClick={() => setUserMenuOpen(!userMenuOpen)}
-                    className="flex items-center space-x-2 bg-gray-800/50 hover:bg-gray-700/50 rounded-lg px-3 py-2 transition-colors duration-200"
+                    className="flex items-center space-x-2 rounded-lg px-3 py-2 transition-colors duration-200 glass-surface"
                   >
-                    <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+                    <div className="w-8 h-8 gradient-primary rounded-full flex items-center justify-center">
                       <User className="w-4 h-4 text-white" />
                     </div>
                     <span className="hidden sm:block text-white font-medium">
@@ -162,7 +160,7 @@ export default function Navbar() {
                 </Link>
                 <Link
                   href="/auth/register"
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-200"
+                  className="btn-primary px-4 py-2 rounded-lg font-semibold"
                 >
                   Sign Up
                 </Link>
@@ -254,7 +252,7 @@ export default function Navbar() {
                   </Link>
                   <Link
                     href="/auth/register"
-                    className="block text-center bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-200"
+                    className="btn-primary block text-center px-4 py-2 rounded-lg font-semibold"
                   >
                     Sign Up
                   </Link>

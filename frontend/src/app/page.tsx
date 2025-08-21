@@ -25,7 +25,7 @@ const games = [
     name: 'Plinko',
     description: 'Watch the ball bounce through pegs and land on multipliers up to 1000x',
     icon: Target,
-    color: 'from-blue-500 to-cyan-500',
+    color: 'gradient-primary',
     features: ['Physics-based gameplay', 'Multiple risk levels', 'Up to 1000x multiplier'],
     maxMultiplier: '1000x',
   },
@@ -34,7 +34,7 @@ const games = [
     name: 'Mines',
     description: 'Navigate through a minefield to find gems and cash out before hitting a mine',
     icon: Bomb,
-    color: 'from-purple-500 to-pink-500',
+    color: 'gradient-accent',
     features: ['Strategic gameplay', 'Customizable difficulty', 'High risk, high reward'],
     maxMultiplier: '5000x',
   },
@@ -67,7 +67,7 @@ const features = [
   },
   {
     icon: Star,
-    title: 'Premium Experience',
+    title: 'Ofform Experience',
     description: 'Industry-leading design, smooth animations, and intuitive gameplay.',
   },
 ];
@@ -98,8 +98,7 @@ export default function HomePage() {
       
       {/* Hero Section */}
       <section className="relative pt-20 pb-16 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-purple-600/20 to-green-600/20" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-900/20 via-transparent to-transparent" />
+        <div className="absolute inset-0" style={{background: 'radial-gradient(ellipse at center, rgba(57, 227, 176, 0.1) 0%, rgba(113, 242, 232, 0.05) 50%, transparent 100%)'}} />
         
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
@@ -108,23 +107,24 @@ export default function HomePage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-                <span className="gradient-text-primary">Premium</span>{' '}
-                <span className="text-white">Gambling</span>
-                <br />
-                <span className="gradient-text-secondary">Experience</span>
-              </h1>
+             
+             <h1 className="text-5xl md:text-7xl mb-6 leading-tight font-helvetica font-bold" style={{color: 'var(--text)'}}>
+  <span className="gradient-text-primary">Premium</span>{' '}
+  <span style={{color: 'var(--text)'}}>Gambling</span>
+  <br />
+  <span className="gradient-text-accent">Experience</span>
+</h1>
               
-              <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
-                Experience the thrill of Plinko, Mines, and Crash games on the most elegant 
-                gambling platform. Provably fair, instant payouts, and industry-leading security.
+              <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto leading-relaxed" style={{color: 'var(--muted)', fontFamily: 'var(--font-helvetica)'}}>
+                Ofform the thrill of Plinko, Mines, and Crash games on the most elegant 
+                ofform gambling platform. Provably fair, instant payouts, and industry-leading security.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
                 {user ? (
                   <button
                     onClick={() => router.push('/games')}
-                    className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg transition-all duration-300 flex items-center gap-2 btn-hover hover:scale-105 transform"
+                    className="btn-primary px-8 py-4 font-semibold rounded-xl shadow-lg flex items-center gap-2"
                   >
                     <Play className="w-5 h-5" />
                     Play Now
@@ -134,7 +134,7 @@ export default function HomePage() {
                   <>
                     <button
                       onClick={() => router.push('/auth/register')}
-                      className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg transition-all duration-300 flex items-center gap-2 btn-hover hover:scale-105 transform"
+                      className="btn-primary px-8 py-4 font-semibold rounded-xl shadow-lg flex items-center gap-2"
                     >
                       Start Playing
                       <ArrowRight className="w-5 h-5" />
@@ -142,7 +142,7 @@ export default function HomePage() {
                     
                     <button
                       onClick={() => router.push('/auth/login')}
-                      className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 text-white font-semibold rounded-xl transition-all duration-300 hover:scale-105 transform"
+                      className="btn-secondary px-8 py-4 font-semibold rounded-xl"
                     >
                       Sign In
                     </button>
@@ -205,17 +205,17 @@ export default function HomePage() {
                 transition={{ duration: 0.8, delay: index * 0.2 }}
                 className="glass-dark rounded-2xl p-8 card-hover group"
               >
-                <div className={`w-16 h-16 bg-gradient-to-r ${game.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                <div className={`w-16 h-16 ${game.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
                   <game.icon className="w-8 h-8 text-white" />
                 </div>
 
-                <h3 className="text-2xl font-bold mb-4 text-white">{game.name}</h3>
-                <p className="text-gray-300 mb-6 leading-relaxed">{game.description}</p>
+                <h3 className="text-2xl font-bold mb-4" style={{color: 'var(--text)'}}>{game.name}</h3>
+                <p className="mb-6 leading-relaxed" style={{color: 'var(--muted)'}}>{game.description}</p>
 
                 <div className="space-y-3 mb-6">
                   {game.features.map((feature, idx) => (
-                    <div key={idx} className="flex items-center gap-2 text-sm text-gray-400">
-                      <div className="w-1.5 h-1.5 bg-blue-400 rounded-full" />
+                    <div key={idx} className="flex items-center gap-2 text-sm" style={{color: 'var(--muted)'}}>
+                      <div className="w-1.5 h-1.5 rounded-full" style={{backgroundColor: 'var(--primary)'}} />
                       {feature}
                     </div>
                   ))}
@@ -261,7 +261,7 @@ export default function HomePage() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="text-xl text-gray-300 max-w-2xl mx-auto"
             >
-              We've built the most advanced gambling platform with cutting-edge technology 
+              We've built the most advanced ofform gambling platform with cutting-edge technology 
               and user-centric design.
             </motion.p>
           </div>
@@ -275,11 +275,11 @@ export default function HomePage() {
                 transition={{ duration: 0.8, delay: index * 0.1 }}
                 className="glass-dark rounded-2xl p-6 text-center card-hover"
               >
-                <div className="w-14 h-14 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <div className="w-14 h-14 gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-4">
                   <feature.icon className="w-7 h-7 text-white" />
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-white">{feature.title}</h3>
-                <p className="text-gray-300 text-sm leading-relaxed">{feature.description}</p>
+                <h3 className="text-xl font-bold mb-3" style={{color: 'var(--text)'}}>{feature.title}</h3>
+                <p className="text-sm leading-relaxed" style={{color: 'var(--muted)'}}>{feature.description}</p>
               </motion.div>
             ))}
           </div>
@@ -287,7 +287,7 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-900/20 via-purple-900/20 to-green-900/20">
+      <section className="py-20" style={{background: 'linear-gradient(135deg, rgba(10, 33, 35, 0.3) 0%, rgba(14, 44, 47, 0.3) 50%, rgba(20, 58, 62, 0.3) 100%)'}}>
         <div className="container mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -300,13 +300,13 @@ export default function HomePage() {
             </h2>
             <p className="text-xl text-gray-300 mb-8">
               Join thousands of players already winning on Hyrlqi. 
-              Start with $1000 free credits and experience the thrill.
+              Start with $1000 free credits and ofform the thrill.
             </p>
             
             {!user && (
               <button
                 onClick={() => router.push('/auth/register')}
-                className="px-12 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold text-lg rounded-xl shadow-lg transition-all duration-300 btn-hover hover:scale-105 transform"
+                className="btn-primary px-12 py-4 font-bold text-lg rounded-xl shadow-lg"
               >
                 Get Started Now
               </button>
